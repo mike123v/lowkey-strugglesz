@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head as index.html -->
+</head>
+<body class="bg-blue-50 font-sans">
+    <!-- Same Navbar -->
+    
+    <!-- Post Form -->
+    <section class="py-16 px-4">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Share Anonymously</h2>
+            <form id="postForm">
+                <textarea id="postText" class="w-full p-4 border border-gray-300 rounded-lg mb-4" 
+                    placeholder="What's on your mind? Vent, ask for advice, or just share..." rows="5" required></textarea>
+                <div class="text-center">
+                    <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium">
+                        Post Anonymously
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("postForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const postText = document.getElementById("postText").value;
+            
+            db.collection("posts").add({
+                text: postText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                reactions: { heart: 0, hug: 0 }
+            }).then(() => {
+                alert("Posted! Your message is anonymous.");
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>
